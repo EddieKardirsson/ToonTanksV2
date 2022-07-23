@@ -4,6 +4,7 @@
 #include "BasePawn.h"
 
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -31,11 +32,31 @@ void ABasePawn::BeginPlay()
 	
 }
 
+void ABasePawn::RotateTurret(FVector LookAtTarget)
+{
+	FVector ToTarget = LookAtTarget - TurretMesh->GetComponentLocation();
+	FRotator LookAtRotation = FRotator(0, ToTarget.Rotation().Yaw, 0);
+	TurretMesh->SetWorldRotation(FMath::RInterpTo(TurretMesh->GetComponentRotation(),LookAtRotation,UGameplayStatics::GetWorldDeltaSeconds(this),TurretRInterpRate));
+}
+
+void ABasePawn::RotateTurret(float Value)
+{
+	FRotator DeltaRotator = FRotator::ZeroRotator;
+	DeltaRotator.Yaw = Value * TurretTurnRate * UGameplayStatics::GetWorldDeltaSeconds(this);
+	GetTurretMesh()->AddLocalRotation(DeltaRotator, true);
+}
+
+
 // Called every frame
 void ABasePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+UStaticMeshComponent* ABasePawn::GetTurretMesh()
+{
+	return TurretMesh;
 }
 
 //// Called to bind functionality to input

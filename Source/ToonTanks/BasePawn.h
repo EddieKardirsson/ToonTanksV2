@@ -17,7 +17,11 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;		
+	virtual void BeginPlay() override;
+
+	void RotateTurret(FVector LookAtTarget);
+public:
+	void RotateTurret(float Value);
 
 private:
 
@@ -33,6 +37,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = true))
 	USceneComponent* ProjectileSpawnPoint;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = true))
+	float TurretTurnRate = 150;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = true))
+	float TurretRInterpRate = 5;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -40,4 +50,8 @@ public:
 	//// Called to bind functionality to input
 	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+
+	UFUNCTION()
+	UStaticMeshComponent* GetTurretMesh();
 };

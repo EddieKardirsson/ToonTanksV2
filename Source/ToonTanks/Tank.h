@@ -17,13 +17,18 @@ public:
 
 	ATank();
 
-protected:
-
 	
 public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Called every frame
+	virtual void Tick(float DeltaSeconds) override;
+
+protected:
+
+	virtual void BeginPlay() override;
 
 private:
 
@@ -39,8 +44,14 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = true))
 	float TurnRate = 100;
 
+	
+
 	void Move(float Value);
 	void Turn(float Value);
+	void ControllerBoundTurretControls(float Value);
+
+	UPROPERTY()
+	APlayerController* PlayerController;
 
 	const FName FireName = TEXT("Fire");
 	const FName MoveForwardName = TEXT("MoveForward");
