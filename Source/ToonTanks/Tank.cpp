@@ -5,7 +5,6 @@
 
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "DrawDebugHelpers.h"
 
 
@@ -37,12 +36,12 @@ void ATank::Tick(float DeltaSeconds)
 		PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, 
 			false, HitResult);
 
-		DrawDebugSphere(GetWorld(),
+		/*DrawDebugSphere(GetWorld(),
 			HitResult.ImpactPoint + FVector(0, 0, 20),
 			25, 20,
-			FColor::Red, false);
+			FColor::Red, false);*/
 
-		/*RotateTurret(HitResult.ImpactPoint);*/
+		RotateTurret(HitResult.ImpactPoint);
 	}
 }
 

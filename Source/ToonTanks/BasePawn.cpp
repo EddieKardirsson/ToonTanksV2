@@ -4,7 +4,7 @@
 #include "BasePawn.h"
 
 #include "Components/CapsuleComponent.h"
-#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ABasePawn::ABasePawn()
