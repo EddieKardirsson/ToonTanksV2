@@ -4,6 +4,7 @@
 #include "BasePawn.h"
 
 #include "Components/CapsuleComponent.h"
+#include "DrawDebugHelpers.h"
 
 
 // Sets default values
@@ -39,6 +40,7 @@ void ABasePawn::RotateTurret(FVector LookAtTarget)
 	TurretMesh->SetWorldRotation(FMath::RInterpTo(TurretMesh->GetComponentRotation(),LookAtRotation,UGameplayStatics::GetWorldDeltaSeconds(this),TurretRInterpRate));
 }
 
+
 void ABasePawn::RotateTurret(float Value)
 {
 	FRotator DeltaRotator = FRotator::ZeroRotator;
@@ -46,6 +48,11 @@ void ABasePawn::RotateTurret(float Value)
 	GetTurretMesh()->AddLocalRotation(DeltaRotator, true);
 }
 
+void ABasePawn::Fire()
+{
+	FVector ProjectileSpawnPointLocation = ProjectileSpawnPoint->GetComponentLocation();
+	DrawDebugSphere(GetWorld(), ProjectileSpawnPointLocation, 15, 30, FColor::Red, false, 3);
+}
 
 // Called every frame
 void ABasePawn::Tick(float DeltaTime)

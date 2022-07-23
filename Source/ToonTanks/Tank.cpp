@@ -24,6 +24,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(MoveForwardName, this, &ATank::Move);
 	PlayerInputComponent->BindAxis(TurnName, this, &ATank::Turn);
 	PlayerInputComponent->BindAxis(RotateTurretName, this, &ABasePawn::RotateTurret);
+
+	PlayerInputComponent->BindAction(FireName,IE_Pressed, this, &ATank::Fire);
 }
 
 void ATank::Tick(float DeltaSeconds)
@@ -70,4 +72,5 @@ void ATank::ControllerBoundTurretControls(float Value)
 {
 	RotateTurret(Value);
 }
+
 

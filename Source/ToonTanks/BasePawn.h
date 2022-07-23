@@ -21,6 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	void RotateTurret(FVector LookAtTarget);
+	void Fire();
 public:
 	void RotateTurret(float Value);
 
