@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/DamageType.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Sound/SoundBase.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -23,6 +24,7 @@ AProjectile::AProjectile()
 	
 	TrailParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("TrailParticles"));
 	TrailParticles->SetupAttachment(RootComponent);
+	
 }
 
 // Called when the game starts or when spawned
@@ -31,11 +33,15 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 
 	StaticMeshComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	if(LaunchSound)
+	{
+		UGameplayStatics::SpawnSoundAtLocation(this, LaunchSound, GetActorLocation());
+	}
 }
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,	FVector NormalImpulse, const FHitResult& Hit)
 {
-	const auto MyOwner = GetOwner();
+	const auto MyOwner = GetOwner();	
 	if (!MyOwner)
 	{
 		Destroy();
@@ -52,6 +58,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 		if(HitParticles)
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
+		}
+		if (HitSound)
+		{
+			UGameplayStatics::SpawnSoundAtLocation(this, HitSound, GetActorLocation());
 		}
 	}
 	Destroy();
