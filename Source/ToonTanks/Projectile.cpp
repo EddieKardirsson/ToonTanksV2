@@ -34,8 +34,11 @@ void AProjectile::BeginPlay()
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,	FVector NormalImpulse, const FHitResult& Hit)
 {
 	const auto MyOwner = GetOwner();
-	if (!MyOwner) return;
-
+	if (!MyOwner)
+	{
+		Destroy();
+		return;
+	}
 	const auto MyOwnerInstigator = MyOwner->GetInstigatorController();
 	if (!MyOwnerInstigator) return;
 
@@ -44,9 +47,12 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	if(OtherActor && OtherActor != this && OtherActor != MyOwner)
 	{
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwnerInstigator, this, DamageTypeClass);
-		Destroy();
+		if(HitParticles)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
+		}
 	}
-
+	Destroy();
 }
 
 // Called every frame
