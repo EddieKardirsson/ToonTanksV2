@@ -42,6 +42,12 @@ void ATower::Tick(float DeltaSeconds)
 	}
 }
 
+void ATower::HandleDestruction()
+{
+	Super::HandleDestruction();
+	Destroy();
+}
+
 void ATower::CheckFireCondition()
 {
 	//if(Tank)
