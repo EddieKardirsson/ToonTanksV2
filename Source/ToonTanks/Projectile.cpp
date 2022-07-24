@@ -41,13 +41,13 @@ void AProjectile::BeginPlay()
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,	FVector NormalImpulse, const FHitResult& Hit)
 {
-	const auto MyOwner = GetOwner();	
+	const AActor* MyOwner = GetOwner();	
 	if (!MyOwner)
 	{
 		Destroy();
 		return;
 	}
-	const auto MyOwnerInstigator = MyOwner->GetInstigatorController();
+	AController* MyOwnerInstigator = MyOwner->GetInstigatorController();
 	if (!MyOwnerInstigator) return;
 
 	UClass* DamageTypeClass = UDamageType::StaticClass();

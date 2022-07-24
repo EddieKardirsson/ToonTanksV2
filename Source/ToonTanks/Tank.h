@@ -27,6 +27,8 @@ public:
 
 	APlayerController* GetPlayerController() const { return PlayerController; }
 
+	bool bIsAlive = true;
+
 protected:
 
 	virtual void BeginPlay() override;

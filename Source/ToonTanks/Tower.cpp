@@ -15,27 +15,14 @@ void ATower::BeginPlay()
 	Super::BeginPlay();
 
 	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
-	if(Tank)
-	{
-		
-	}
-
+	
 	GetWorldTimerManager().SetTimer(FireRateTimerHandle, this, &ATower::CheckFireCondition, FireRate, true);
 }
 
 void ATower::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
-	//if(Tank)
-	//{
-	//	float Distance = FVector::Dist(GetActorLocation(), Tank->GetActorLocation());
-	//	if(Distance <= FireRange)
-	//	{
-	//		RotateTurret(Tank->GetActorLocation());
-	//	}
-	//}
-
+	
 	if(CheckIfTankIsInFireRange())
 	{
 		RotateTurret(Tank->GetActorLocation());
@@ -50,16 +37,11 @@ void ATower::HandleDestruction()
 
 void ATower::CheckFireCondition()
 {
-	//if(Tank)
-	//{
-	//	float Distance = FVector::Dist(GetActorLocation(), Tank->GetActorLocation());
-	//	if(Distance <= FireRange)
-	//	{
-	//		Fire();
-	//	}
-	//}
-
-	if(CheckIfTankIsInFireRange())
+	if (!Tank)
+	{
+		return;
+	}
+	if(CheckIfTankIsInFireRange() && Tank->bIsAlive)
 	{
 		Fire();
 	}
