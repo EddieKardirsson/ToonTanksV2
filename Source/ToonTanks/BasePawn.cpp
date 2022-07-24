@@ -31,6 +31,11 @@ ABasePawn::ABasePawn()
 
 void ABasePawn::HandleDestruction()
 {
+	if(DeathCameraShakeClass)
+	{
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathCameraShakeClass);
+	}
+
 	if (DeathParticles)
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation());
